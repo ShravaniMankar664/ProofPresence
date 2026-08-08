@@ -1,3 +1,4 @@
+import { connectWallet } from "../wallet";
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../store';
@@ -17,6 +18,23 @@ type Step = { id: string; label: string; state: 'waiting' | 'active' | 'done' };
 
 export function WalletPage() {
   const { wallet, events, pushToast } = useApp();
+  const [browserWallet, setBrowserWallet] = useState<any | null>(null);
+  const [browserConnecting, setBrowserConnecting] = useState(false);
+
+  const handleConnectWallet = async () => {
+  setBrowserConnecting(true);
+
+  try {
+    const connectedWallet = await connectWallet();
+
+    if (connectedWallet) {
+      setBrowserWallet(connectedWallet);
+      pushToast("1AM Wallet connected", "success");
+    }
+  } finally {
+    setBrowserConnecting(false);
+  }
+};
   const navigate = useNavigate();
   const [phase, setPhase] = useState<'connecting' | 'connected'>('connecting');
   const settled = useRef(false);
@@ -130,7 +148,53 @@ export function WalletPage() {
               <LockIcon size={14} /> Choose your role
             </div>
 
-            <div className="grid grid-2">
+          <div className="card" style={{ padding: 20, marginBottom: 20 }}>
+  <div className="row between wrap" style={{ gap: 12 }}>
+    <div>
+      <div
+        className="muted"
+        style={{
+          fontSize: 12.5,
+          textTransform: 'uppercase',
+          letterSpacing: 0.05,
+        }}
+      >
+        1AM Wallet
+      </div>
+
+      <div style={{ marginTop: 6, fontSize: 14 }}>
+        {browserWallet
+          ? 'Browser wallet connected'
+          : 'Connect your Midnight wallet'}
+      </div>
+    </div>
+
+    {!browserWallet && (
+      <button
+        className="btn btn-primary"
+        onClick={handleConnectWallet}
+        disabled={browserConnecting}
+      >
+        {browserConnecting ? 'Connecting…' : 'Connect 1AM Wallet'}
+      </button>
+    )}
+  </div>
+
+  {browserWallet && (
+    <div
+      className="mono"
+      style={{
+        marginTop: 14,
+        fontSize: 13,
+        wordBreak: 'break-all',
+      }}
+    >
+      Wallet connected successfully
+    </div>
+  )}
+</div>
+  
+          <div className="grid grid-2">
               <button className="btn btn-primary btn-lg" onClick={() => navigate('/organizer')}>
                 <UsersIcon size={18} /> I'm an organizer
               </button>

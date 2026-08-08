@@ -64,3 +64,4 @@ web/dist/
 
 # Off-chain demo data store (event metadata, check-in timestamps, attendee secrets)
 .server-data.json
+midnight-level-db/
