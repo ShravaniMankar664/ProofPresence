@@ -295,3 +295,8 @@ proofpresence-ai/
 Built with ❤️ on the **Midnight Network**.
 
 </div>
+
+
+## 💡 Initial Product Idea
+
+ProofPresence is a privacy-preserving event attendance and certificate platform built on Midnight. The idea is to let event organizers verify attendance and issue certificates without collecting or exposing attendees' real identities. Attendees check in using pseudonymous identities and zero-knowledge proofs, while events, aggregate attendance, and certificate commitments are recorded on-chain for public verification. The platform can be used for hackathons, conferences, workshops, meetups, and other events where privacy and verifiable participation are important.
