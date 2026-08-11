@@ -22,6 +22,20 @@ Zero-knowledge proof · pseudonymous identities · on-chain certificates · AI i
 
 ---
 
+
+## 🌐 Deployed Contract
+
+### Midnight Preview
+
+- **Network:** Midnight Preview
+- **Contract Address:** `e8482aba77255f5d8ac47fd17f0ffd5a5d8d7ee6c66bafae7c1e61cd51a7de28`
+
+The contract was compiled and successfully deployed to the Midnight Preview network. The deployment address is also saved locally in `.midnight-state.json`.
+
+> Note: The proof server runs locally because it is used for generating zero-knowledge proofs. The smart contract itself is deployed on Midnight Preview.
+
+---
+
 ## ✨ Features
 
 | | |
