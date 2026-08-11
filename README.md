@@ -25,6 +25,16 @@ Zero-knowledge proof · pseudonymous identities · on-chain certificates · AI i
 
 ## 🌐 Deployed Contract
 
+### Verification
+
+The Preview deployment was successfully tested using the project setup and end-to-end flow:
+
+```bash
+npm run setup
+npm run server
+npm run dev:web
+npm run test:e2e
+
 ### Midnight Preview
 
 - **Network:** Midnight Preview
