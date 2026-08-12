@@ -123,6 +123,25 @@ sequenceDiagram
 
 ---
 
+## 🏆 Challenge Evidence
+
+### Successful Compact Compilation
+
+The Compact contract was successfully compiled into three zero-knowledge circuits: `checkIn`, `createEvent`, and `issueCertificate`.
+
+![Successful Compact compilation](screenshots/ProofPresence-Compile-Success.png)
+
+### Successful Midnight Preview Deployment
+
+ProofPresence was successfully deployed to the Midnight Preview network.
+
+**Network:** Midnight Preview  
+**Contract Address:** `e8482aba77255f5d8ac47fd17f0ffd5a5d8d7ee6c66bafae7c1e61cd51a7de28`
+
+![Successful Preview deployment](screenshots/ProofPresence-Deployment-Success.png)
+
+---
+
 ## 📸 Screenshots
 
 | Landing | Organizer dashboard |
