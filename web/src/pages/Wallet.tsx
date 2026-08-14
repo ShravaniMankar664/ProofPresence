@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../store';
 import { CopyButton } from '../components/Toasts';
-import { connectWallet } from '../wallet';
+import {
+  connectWallet,
+  disconnectWallet,
+  getConnectedWallet,
+} from '../wallet';
 
 import {
   GlobeIcon,
@@ -17,8 +21,14 @@ export function WalletPage() {
   const { wallet, events, pushToast } = useApp();
   const navigate = useNavigate();
 
-  const [browserWallet, setBrowserWallet] = useState<any | null>(null);
+  const [browserWallet, setBrowserWallet] = useState<any | null>(
+    getConnectedWallet()
+  );
   const [browserConnecting, setBrowserConnecting] = useState(false);
+
+  useEffect(() => {
+    setBrowserWallet(getConnectedWallet());
+  }, []);
 
   const handleConnectWallet = async () => {
     if (browserConnecting) return;
@@ -38,6 +48,12 @@ export function WalletPage() {
     } finally {
       setBrowserConnecting(false);
     }
+  };
+
+  const handleDisconnectWallet = async () => {
+    await disconnectWallet();
+    setBrowserWallet(null);
+    pushToast('1AM Wallet disconnected', 'info');
   };
 
   const eventCount = events?.length ?? 0;
@@ -152,17 +168,29 @@ export function WalletPage() {
                 : 'Connect 1AM Wallet'}
             </button>
           ) : (
-            <div
-              className="mono"
-              style={{
-                marginTop: 14,
-                fontSize: 13,
-                padding: 12,
-                borderRadius: 10,
-                background: 'rgba(52, 211, 153, 0.08)',
-              }}
-            >
-              ✓ Wallet connected successfully
+            <div style={{ marginTop: 14 }}>
+              <div
+                className="mono"
+                style={{
+                  fontSize: 13,
+                  padding: 12,
+                  borderRadius: 10,
+                  background: 'rgba(52, 211, 153, 0.08)',
+                  marginBottom: 12,
+                }}
+              >
+                ✓ Wallet connected successfully
+              </div>
+
+              <button
+                className="btn btn-lg"
+                onClick={handleDisconnectWallet}
+                style={{
+                  width: '100%',
+                }}
+              >
+                Disconnect Wallet
+              </button>
             </div>
           )}
         </div>

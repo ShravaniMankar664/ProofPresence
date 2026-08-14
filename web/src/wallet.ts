@@ -1,6 +1,12 @@
-import type { ConnectedAPI, InitialAPI } from "@midnight-ntwrk/dapp-connector-api";
+import type {
+  ConnectedAPI,
+  InitialAPI,
+  ConnectionStatus,
+} from "@midnight-ntwrk/dapp-connector-api";
 
 const NETWORK_ID = "preview";
+
+let connectedWallet: ConnectedAPI | null = null;
 
 function findMidnightWallet(): InitialAPI | null {
   const wallets = Object.values(window.midnight ?? {}) as unknown[];
@@ -19,6 +25,10 @@ function findMidnightWallet(): InitialAPI | null {
   return null;
 }
 
+export function getConnectedWallet(): ConnectedAPI | null {
+  return connectedWallet;
+}
+
 export async function connectWallet(): Promise<ConnectedAPI | null> {
   const connector = findMidnightWallet();
 
@@ -34,11 +44,14 @@ export async function connectWallet(): Promise<ConnectedAPI | null> {
 
     const wallet = await connector.connect(NETWORK_ID);
 
+    connectedWallet = wallet;
+
     console.log("1AM Wallet connected:", wallet);
 
     return wallet;
   } catch (error) {
     console.error("1AM Wallet connection failed:", error);
+    connectedWallet = null;
 
     alert(
       "Wallet connection failed. Please make sure 1AM Wallet is unlocked and connected to the Preview Network."
@@ -46,4 +59,31 @@ export async function connectWallet(): Promise<ConnectedAPI | null> {
 
     return null;
   }
+}
+
+export async function getWalletConnectionStatus(): Promise<ConnectionStatus | null> {
+  if (!connectedWallet) {
+    return null;
+  }
+
+  try {
+    return await connectedWallet.getConnectionStatus();
+  } catch (error) {
+    console.error("Unable to check wallet connection status:", error);
+    connectedWallet = null;
+    return null;
+  }
+}
+
+export async function disconnectWallet(): Promise<void> {
+  /*
+   * The Midnight DApp Connector API does not expose a disconnect()
+   * method on ConnectedAPI.
+   *
+   * Therefore the DApp disconnects locally by forgetting the
+   * ConnectedAPI reference. The wallet itself remains installed.
+   */
+  connectedWallet = null;
+
+  console.log("1AM Wallet disconnected from ProofPresence frontend");
 }
