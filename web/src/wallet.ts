@@ -4,7 +4,7 @@ import type {
   ConnectionStatus,
 } from "@midnight-ntwrk/dapp-connector-api";
 
-const NETWORK_ID = "preview";
+const NETWORK_ID = "preprod";
 
 let connectedWallet: ConnectedAPI | null = null;
 
@@ -54,7 +54,7 @@ export async function connectWallet(): Promise<ConnectedAPI | null> {
     connectedWallet = null;
 
     alert(
-      "Wallet connection failed. Please make sure 1AM Wallet is unlocked and connected to the Preview Network."
+      "Wallet connection failed. Please make sure 1AM Wallet is unlocked and connected to the Preprod Network."
     );
 
     return null;
